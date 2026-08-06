@@ -15,7 +15,7 @@
             </p>
             <h3><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></h3>
             <p>{{ article.summary }}</p>
-            {% if article.in_game_date %}<p class="meta">ДАТА СВОДКИ: {{ article.in_game_date|date:"d.m.Y" }}</p>{% endif %}
+            {% if article.in_game_date %}<p class="meta">ДАТА СВОДКИ: {{ article.in_game_date|date:"j E" }}</p>{% endif %}
         </article>
     {% empty %}
         <p>В архив не поступило ни одной сводки.</p>

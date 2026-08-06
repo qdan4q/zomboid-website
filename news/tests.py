@@ -1,3 +1,5 @@
+from datetime import date
+
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
@@ -127,6 +129,17 @@ class NewsVisibilityTests(TestCase):
             self.client.get(self.hidden_article.get_absolute_url()),
             self.hidden_article.content,
         )
+
+    def test_in_game_date_uses_day_and_localized_month_name(self):
+        self.public_article.in_game_date = date(1993, 1, 1)
+        self.public_article.save(update_fields=["in_game_date"])
+
+        list_response = self.client.get(reverse("news_list"))
+        detail_response = self.client.get(self.public_article.get_absolute_url())
+
+        for response in (list_response, detail_response):
+            self.assertContains(response, "1 \u044f\u043d\u0432\u0430\u0440\u044f")
+            self.assertNotContains(response, "01.01.1993")
 
     def test_visibility_form_uses_two_clear_radio_choices(self):
         self.client.force_login(self.staff)

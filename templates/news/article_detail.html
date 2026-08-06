@@ -15,7 +15,7 @@
     <hr>
     <p class="meta">
         АВТОР: {{ article.author.username|upper }}
-        {% if article.in_game_date %} :: ДАТА СВОДКИ {{ article.in_game_date|date:"d.m.Y" }}{% endif %}
+        {% if article.in_game_date %} :: ДАТА СВОДКИ {{ article.in_game_date|date:"j E" }}{% endif %}
         :: ПОСЛЕДНЕЕ ИЗМЕНЕНИЕ {{ article.updated_at|date:"d.m.Y H:i" }}
     </p>
     <p>
