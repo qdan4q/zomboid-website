@@ -3,7 +3,7 @@
 {% block content %}
 <article class="content-box">
     <p class="meta">
-        {{ article.get_news_type_display|upper }} :: ПОЛУЧЕНО {{ article.created_at|date:"d.m.Y H:i" }}
+        {{ article.get_news_type_display|upper }}{% if article.in_game_date %} :: ПОЛУЧЕНО {{ article.in_game_date|date:"j E Y" }}{% endif %}
         {% if article.visibility == "admin_only" %}<span class="admin-only">ТОЛЬКО ДЛЯ АДМИНИСТРАТОРОВ</span>{% endif %}
     </p>
     <h2>{{ article.title }}</h2>
@@ -15,8 +15,7 @@
     <hr>
     <p class="meta">
         АВТОР: {{ article.author.username|upper }}
-        {% if article.in_game_date %} :: ДАТА СВОДКИ {{ article.in_game_date|date:"j E" }}{% endif %}
-        :: ПОСЛЕДНЕЕ ИЗМЕНЕНИЕ {{ article.updated_at|date:"d.m.Y H:i" }}
+        {% if article.in_game_date %} :: ДАТА СВОДКИ {{ article.in_game_date|date:"j E Y" }}{% endif %}
     </p>
     <p>
         <a href="{% url 'news_list' %}">[ Вернуться к новостям ]</a>

@@ -21,7 +21,7 @@
 <section class="content-box">
     {% for listing in listings %}
         <article class="listing-row">
-            <p class="meta-line">{{ listing.get_category_display }} | {{ listing.created_at|date:"d.m.Y H:i" }}</p>
+            <p class="meta-line">{{ listing.get_category_display }} | {{ listing.created_at|date:"j E, H:i" }}</p>
             <h3><a href="{{ listing.get_absolute_url }}">{{ listing.title }}</a></h3>
             <p>{{ listing.description|truncatewords:28 }}</p>
             <p><strong>Цена или обмен:</strong> {{ listing.price_or_trade }}<br>

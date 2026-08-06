@@ -9,7 +9,6 @@
         <dt>Имя персонажа</dt><dd>{{ profile.character_name|default:"Не записано" }}</dd>
         <dt>Занятие</dt><dd>{{ profile.occupation|default:"Неизвестно" }}</dd>
         <dt>Текущее состояние</dt><dd>{{ profile.get_status_display }}</dd>
-        <dt>Дата регистрации</dt><dd>{{ profile_user.date_joined|date:"d.m.Y" }}</dd>
         <dt>Биография</dt><dd>{{ profile.biography|default:"Сведения о выжившем не поданы."|linebreaksbr }}</dd>
     </dl>
 </section>

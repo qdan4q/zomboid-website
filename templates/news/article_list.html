@@ -10,12 +10,11 @@
     {% for article in articles %}
         <article class="news-row">
             <p class="meta">
-                {{ article.author.username|upper }} :: {{ article.created_at|date:"j E" }}
+                {{ article.author.username|upper }}{% if article.in_game_date %} :: {{ article.in_game_date|date:"j E Y" }}{% endif %}
                 {% if article.visibility == "admin_only" %}<span class="admin-only">ТОЛЬКО ДЛЯ АДМИНИСТРАТОРОВ</span>{% endif %}
             </p>
             <h3><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></h3>
             <p>{{ article.summary }}</p>
-            {% if article.in_game_date %}<p class="meta">ДАТА СВОДКИ: {{ article.in_game_date|date:"j E" }}</p>{% endif %}
         </article>
     {% empty %}
         <p>В архив не поступило ни одной сводки.</p>

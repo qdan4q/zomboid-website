@@ -14,7 +14,6 @@
         <dt>Имя персонажа</dt><dd>{{ profile.character_name|default:"Не записано" }}</dd>
         <dt>Занятие</dt><dd>{{ profile.occupation|default:"Неизвестно" }}</dd>
         <dt>Текущее состояние</dt><dd>{{ profile.get_status_display }}</dd>
-        <dt>Дата регистрации</dt><dd>{{ user.date_joined|date:"d.m.Y" }}</dd>
         <dt>Биография</dt><dd>{{ profile.biography|default:"Сведения о выжившем не поданы."|linebreaksbr }}</dd>
     </dl>
 </section>
@@ -30,7 +29,7 @@
                     <td><a href="{% url 'listing_detail' listing.pk %}">{{ listing.title }}</a></td>
                     <td>{{ listing.get_category_display }}</td>
                     <td>{{ listing.get_status_display }}</td>
-                    <td>{{ listing.created_at|date:"d.m.Y" }}</td>
+                    <td>{{ listing.created_at|date:"j E" }}</td>
                 </tr>
             {% endfor %}
             </tbody>

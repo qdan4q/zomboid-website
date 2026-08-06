@@ -8,7 +8,7 @@
     </div>
     <table class="data-table">
         <thead>
-            <tr><th>Заголовок</th><th>Тип</th><th>Видимость</th><th>Создано</th><th>Действия</th></tr>
+            <tr><th>Заголовок</th><th>Тип</th><th>Видимость</th><th>Дата сводки</th><th>Действия</th></tr>
         </thead>
         <tbody>
         {% for article in articles %}
@@ -19,7 +19,7 @@
                     {{ article.get_visibility_display }}
                     {% if article.visibility == "admin_only" %}<span class="admin-only">ТОЛЬКО ДЛЯ АДМИНИСТРАТОРОВ</span>{% endif %}
                 </td>
-                <td>{{ article.created_at|date:"d.m.Y" }}</td>
+                <td>{{ article.in_game_date|date:"j E Y"|default:"—" }}</td>
                 <td><a href="{% url 'news_edit' article.pk %}">Изменить</a> | <a href="{% url 'news_delete' article.pk %}">Удалить</a></td>
             </tr>
         {% empty %}

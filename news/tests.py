@@ -130,7 +130,7 @@ class NewsVisibilityTests(TestCase):
             self.hidden_article.content,
         )
 
-    def test_in_game_date_uses_day_and_localized_month_name(self):
+    def test_in_game_date_uses_day_localized_month_and_fictional_year(self):
         self.public_article.in_game_date = date(1993, 1, 1)
         self.public_article.save(update_fields=["in_game_date"])
 
@@ -138,8 +138,25 @@ class NewsVisibilityTests(TestCase):
         detail_response = self.client.get(self.public_article.get_absolute_url())
 
         for response in (list_response, detail_response):
-            self.assertContains(response, "1 \u044f\u043d\u0432\u0430\u0440\u044f")
+            self.assertContains(response, "1 \u044f\u043d\u0432\u0430\u0440\u044f 1993")
             self.assertNotContains(response, "01.01.1993")
+
+    def test_news_pages_hide_real_publication_and_edit_dates(self):
+        self.public_article.in_game_date = date(1993, 7, 1)
+        self.public_article.save(update_fields=["in_game_date"])
+
+        home_response = self.client.get(reverse("home"))
+        self.assertContains(home_response, "1 \u0438\u044e\u043b\u044f")
+        self.assertNotContains(home_response, "1993")
+        self.assertNotContains(home_response, str(self.public_article.created_at.year))
+
+        for response in (
+            self.client.get(reverse("news_list")),
+            self.client.get(self.public_article.get_absolute_url()),
+        ):
+            self.assertContains(response, "1 \u0438\u044e\u043b\u044f 1993")
+            self.assertNotContains(response, str(self.public_article.created_at.year))
+            self.assertNotContains(response, "\u041f\u041e\u0421\u041b\u0415\u0414\u041d\u0415\u0415 \u0418\u0417\u041c\u0415\u041d\u0415\u041d\u0418\u0415")
 
     def test_visibility_form_uses_two_clear_radio_choices(self):
         self.client.force_login(self.staff)

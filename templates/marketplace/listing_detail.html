@@ -7,7 +7,7 @@
     <p class="eyebrow">ОБЪЯВЛЕНИЕ С БАРАХОЛКИ</p>
     <h2>{{ listing.title }}</h2>
     <p class="meta-line">
-        {{ listing.get_category_display }} | Опубликовано {{ listing.created_at|date:"d.m.Y H:i" }}
+        {{ listing.get_category_display }} | Опубликовано {{ listing.created_at|date:"j E, H:i" }}
         пользователем <a href="{% url 'public_profile' listing.author.pk %}">{{ listing.author.username }}</a> | Состояние: {{ listing.get_status_display }}
     </p>
 
