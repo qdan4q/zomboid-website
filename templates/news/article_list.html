@@ -10,7 +10,7 @@
     {% for article in articles %}
         <article class="news-row">
             <p class="meta">
-                {{ article.get_news_type_display|upper }} :: {{ article.created_at|date:"d.m.Y H:i" }}
+                {{ article.author.username|upper }} :: {{ article.created_at|date:"j E" }}
                 {% if article.visibility == "admin_only" %}<span class="admin-only">ТОЛЬКО ДЛЯ АДМИНИСТРАТОРОВ</span>{% endif %}
             </p>
             <h3><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></h3>
