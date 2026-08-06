@@ -40,3 +40,20 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return self.character_name or self.user.username
+
+
+class DirectMessage(models.Model):
+    sender = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name="отправитель", on_delete=models.CASCADE, related_name="sent_messages")
+    recipient = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name="получатель", on_delete=models.CASCADE, related_name="received_messages")
+    body = models.TextField("сообщение", max_length=4000)
+    created_at = models.DateTimeField("отправлено", auto_now_add=True)
+    read_at = models.DateTimeField("прочитано", null=True, blank=True)
+
+    class Meta:
+        ordering = ["created_at", "pk"]
+        verbose_name = "личное сообщение"
+        verbose_name_plural = "личные сообщения"
+        indexes = [models.Index(fields=["recipient", "read_at"]), models.Index(fields=["sender", "recipient", "created_at"])]
+
+    def __str__(self):
+        return f"{self.sender} -> {self.recipient}: {self.body[:40]}"

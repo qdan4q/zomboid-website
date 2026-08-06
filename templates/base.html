@@ -22,6 +22,7 @@
             <a href="{% url 'news_list' %}">НОВОСТИ</a> |
             <a href="{% url 'listing_list' %}">БАРАХОЛКА</a> |
             {% if user.is_authenticated %}<a href="{% url 'profile' %}">ПРОФИЛЬ</a> |
+                <a href="{% url 'message_inbox' %}">СООБЩЕНИЯ</a> |
                 {% if user.is_staff %}<a href="{% url 'control_panel' %}">ПАНЕЛЬ УПРАВЛЕНИЯ</a> |{% endif %}
                 <form class="inline-form" method="post" action="{% url 'logout' %}">{% csrf_token %}<button class="link-button" type="submit">ВЫЙТИ</button></form>
             {% else %}<a href="{% url 'login' %}">ВОЙТИ</a>{% endif %}
@@ -41,6 +42,7 @@
                 {% if user.is_authenticated %}
                     <p>Выполнен вход:<br><strong>{{ user.username }}</strong></p>
                     <p><a href="{% url 'profile' %}">Открыть досье выжившего</a></p>
+                    <p><a href="{% url 'message_inbox' %}">Личные сообщения</a></p>
                 {% else %}
                     <p>Доступ только для посетителя.</p>
                     <p><a class="button" href="{% url 'login' %}">Войти в сеть</a></p>

@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}{{ profile_user.username }} — профиль{% endblock %}
+{% block content %}
+<section class="content-box">
+    <div class="section-title"><h2>ДОСЬЕ ВЫЖИВШЕГО: {{ profile_user.username }}</h2><a href="{% url 'conversation' profile_user.pk %}">НАПИСАТЬ СООБЩЕНИЕ</a></div>
+    {% if profile.avatar %}<p><img class="uploaded-image" src="{{ profile.avatar.url }}" alt="Аватар {{ profile_user.username }}"></p>{% endif %}
+    <dl class="detail-list">
+        <dt>Имя пользователя</dt><dd>{{ profile_user.username }}</dd>
+        <dt>Имя персонажа</dt><dd>{{ profile.character_name|default:"Не записано" }}</dd>
+        <dt>Занятие</dt><dd>{{ profile.occupation|default:"Неизвестно" }}</dd>
+        <dt>Текущее состояние</dt><dd>{{ profile.get_status_display }}</dd>
+        <dt>Дата регистрации</dt><dd>{{ profile_user.date_joined|date:"d.m.Y" }}</dd>
+        <dt>Биография</dt><dd>{{ profile.biography|default:"Сведения о выжившем не поданы."|linebreaksbr }}</dd>
+    </dl>
+</section>
+<section class="content-box"><h2>АКТИВНЫЕ ОБЪЯВЛЕНИЯ</h2>
+    {% if listings %}<ul>{% for listing in listings %}<li><a href="{{ listing.get_absolute_url }}">{{ listing.title }}</a> — {{ listing.get_category_display }}</li>{% endfor %}</ul>{% else %}<p>Активных объявлений нет.</p>{% endif %}
+</section>
+{% endblock %}

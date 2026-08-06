@@ -8,7 +8,7 @@
     <h2>{{ listing.title }}</h2>
     <p class="meta-line">
         {{ listing.get_category_display }} | Опубликовано {{ listing.created_at|date:"d.m.Y H:i" }}
-        пользователем {{ listing.author.username }} | Состояние: {{ listing.get_status_display }}
+        пользователем <a href="{% url 'public_profile' listing.author.pk %}">{{ listing.author.username }}</a> | Состояние: {{ listing.get_status_display }}
     </p>
 
     {% if listing.image %}
@@ -25,6 +25,12 @@
             <tr><th>Способ связи</th><td>{{ listing.contact_information }}</td></tr>
         </tbody>
     </table>
+
+    {% if user.is_authenticated and user != listing.author %}
+        <p class="action-links"><a class="button" href="{% url 'conversation' listing.author.pk %}">Написать продавцу в ЛС</a></p>
+    {% elif not user.is_authenticated %}
+        <p><a href="{% url 'login' %}?next={% url 'conversation' listing.author.pk %}">Войдите, чтобы написать продавцу</a></p>
+    {% endif %}
 
     {% if user == listing.author or user.is_staff %}
         <p class="action-links">

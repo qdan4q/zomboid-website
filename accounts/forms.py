@@ -5,7 +5,20 @@ from django.db import transaction
 
 from core.validators import validate_image_size
 
-from .models import UserProfile
+from .models import DirectMessage, UserProfile
+
+
+class DirectMessageForm(forms.ModelForm):
+    class Meta:
+        model = DirectMessage
+        fields = ["body"]
+        widgets = {"body": forms.Textarea(attrs={"rows": 5, "placeholder": "Введите сообщение..."})}
+
+    def clean_body(self):
+        body = self.cleaned_data["body"].strip()
+        if not body:
+            raise forms.ValidationError("Сообщение не может быть пустым.")
+        return body
 
 
 User = get_user_model()

@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Сообщения | {{ site_settings.website_name }}{% endblock %}
+{% block content %}
+<section class="content-box"><h2>ЛИЧНЫЕ СООБЩЕНИЯ</h2>
+    {% if conversations %}{% for item in conversations %}
+        <article class="message-row{% if item.unread_count %} unread{% endif %}">
+            <h3><a href="{% url 'conversation' item.user.pk %}">{{ item.user.profile.character_name|default:item.user.username }}</a>{% if item.unread_count %} (новых: {{ item.unread_count }}){% endif %}</h3>
+            <p class="meta-line">{{ item.last_message.created_at|date:"d.m.Y H:i" }} · {% if item.last_message.sender == user %}Вы: {% endif %}{{ item.last_message.body|truncatechars:100 }}</p>
+        </article>
+    {% endfor %}{% else %}<p>Переписок пока нет. Откройте профиль пользователя или его объявление, чтобы написать.</p>{% endif %}
+</section>
+{% endblock %}

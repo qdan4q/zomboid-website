@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Диалог с {{ other_user.username }}{% endblock %}
+{% block content %}
+<section class="content-box">
+    <div class="section-title"><h2>ДИАЛОГ: {{ other_user.profile.character_name|default:other_user.username }}</h2><a href="{% url 'public_profile' other_user.pk %}">ОТКРЫТЬ ПРОФИЛЬ</a></div>
+    <div class="message-thread">
+        {% for direct_message in thread %}<article class="direct-message {% if direct_message.sender == user %}sent{% else %}received{% endif %}">
+            <p><strong>{{ direct_message.sender.username }}</strong> <span class="meta-line">{{ direct_message.created_at|date:"d.m.Y H:i" }}</span></p><div>{{ direct_message.body|linebreaksbr }}</div>
+        </article>{% empty %}<p>Диалог пуст. Отправьте первое сообщение.</p>{% endfor %}
+    </div>
+    <form class="form-box" method="post">{% csrf_token %}{{ form.as_p }}<button type="submit">Отправить</button> <a class="button" href="{% url 'message_inbox' %}">К списку диалогов</a></form>
+</section>
+{% endblock %}

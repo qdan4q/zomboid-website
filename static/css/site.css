@@ -257,7 +257,8 @@ nav a:focus,
 }
 
 .news-row,
-.listing-row {
+.listing-row,
+.message-row {
     margin: 0 -3px;
     padding: 6px 7px 8px 28px;
     border-bottom: 1px dotted #777777;
@@ -284,13 +285,22 @@ nav a:focus,
 .listing-row:last-child { border-bottom: 0; }
 
 .news-row h3,
-.listing-row h3 {
+.listing-row h3,
+.message-row h3 {
     margin: 2px 0;
     font: bold 15px "Times New Roman", serif;
 }
 
 .news-row p,
-.listing-row p { margin: 3px 0; }
+.listing-row p,
+.message-row p { margin: 3px 0; }
+
+.message-row.unread { background: #ffffcc; border-left: 4px solid var(--red); }
+.message-thread { max-height: 520px; margin-bottom: 10px; overflow-y: auto; }
+.direct-message { max-width: 85%; margin: 7px 0; padding: 6px 8px; border: 2px outset #eeeeee; background: #eeeeee; }
+.direct-message.sent { margin-left: auto; background: #ccffff; }
+.direct-message.received { margin-right: auto; background: #ffffcc; }
+.direct-message p { margin: 0 0 4px; }
 
 .data-table {
     width: 100%;
