@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="content-box form-box">
+    <h2>ИЗМЕНИТЬ СООБЩЕНИЯ САЙТА</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Сохранить настройки</button>
+        <a href="{% url 'control_panel' %}">Отмена</a>
+    </form>
+</section>
+{% endblock %}

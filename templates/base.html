@@ -1,0 +1,77 @@
+{% load static %}
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Добровольная сеть связи выживших в закрытой зоне Нокс.">
+    <title>{% block title %}{{ site_settings.website_name }}{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/site.css' %}">
+</head>
+<body>
+<div id="page-shell">
+    <header class="site-header">
+        <div class="signal-bar">/// ГРАЖДАНСКИЙ РЕТРАНСЛЯТОР 04-Б /// СИГНАЛ МОЖЕТ ПРОСЛУШИВАТЬСЯ ///</div>
+        <div class="banner">
+            <p class="eyebrow">ЗАКРЫТАЯ ЗОНА НОКС · ОБЩЕСТВЕННЫЙ ТЕРМИНАЛ</p>
+            <h1>{{ site_settings.website_name }}</h1>
+            <p>Информация живёт, пока люди передают её друг другу.</p>
+        </div>
+        <nav aria-label="Главная навигация">
+            <a href="{% url 'home' %}">ГЛАВНАЯ</a> |
+            <a href="{% url 'news_list' %}">НОВОСТИ</a> |
+            <a href="{% url 'listing_list' %}">БАРАХОЛКА</a> |
+            {% if user.is_authenticated %}<a href="{% url 'profile' %}">ПРОФИЛЬ</a> |
+                {% if user.is_staff %}<a href="{% url 'control_panel' %}">ПАНЕЛЬ УПРАВЛЕНИЯ</a> |{% endif %}
+                <form class="inline-form" method="post" action="{% url 'logout' %}">{% csrf_token %}<button class="link-button" type="submit">ВЫЙТИ</button></form>
+            {% else %}<a href="{% url 'login' %}">ВОЙТИ</a>{% endif %}
+        </nav>
+    </header>
+
+    {% if messages %}
+        <div class="messages" aria-live="polite">
+            {% for message in messages %}<p class="message {{ message.tags }}">{{ message }}</p>{% endfor %}
+        </div>
+    {% endif %}
+
+    <div class="columns">
+        <aside class="sidebar">
+            <section class="side-box">
+                <h2>ТЕРМИНАЛ ПОЛЬЗОВАТЕЛЯ</h2>
+                {% if user.is_authenticated %}
+                    <p>Выполнен вход:<br><strong>{{ user.username }}</strong></p>
+                    <p><a href="{% url 'profile' %}">Открыть досье выжившего</a></p>
+                {% else %}
+                    <p>Доступ только для посетителя.</p>
+                    <p><a class="button" href="{% url 'login' %}">Войти в сеть</a></p>
+                {% endif %}
+            </section>
+            <section class="side-box status-box">
+                <h2>СОСТОЯНИЕ РЕТРАНСЛЯТОРА</h2>
+                <p class="status-light">● {{ site_settings.server_status }}</p>
+                <p><small>Связь проходит через добровольческую вышку К-12.</small></p>
+            </section>
+            <section class="side-box emergency-box">
+                <h2>ЭКСТРЕННОЕ СООБЩЕНИЕ</h2>
+                <p>{{ site_settings.emergency_message }}</p>
+            </section>
+            <section class="side-box counter-box">
+                <h2>ПОСЕТИТЕЛИ</h2>
+                <p class="counter">{{ visitor_number }}</p>
+                <p>Последнее обновление:<br>{{ site_settings.last_updated|date:"d.m.Y H:i" }}</p>
+            </section>
+        </aside>
+
+        <main id="main-content">
+            {% block content %}{% endblock %}
+        </main>
+    </div>
+
+    <footer>
+        <p>{{ site_settings.website_name }} © 1998–199Х · Поддерживается местными добровольцами.</p>
+        <p>Лучше всего смотреть при 1024×768 · Служебные данные не представляют ценности · СОЕДИНЕНИЕ НЕ ЗАЩИЩЕНО</p>
+    </footer>
+</div>
+<script src="{% static 'js/site.js' %}"></script>
+</body>
+</html>

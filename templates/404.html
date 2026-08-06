@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Запись не найдена | {{ site_settings.website_name }}{% endblock %}
+{% block content %}
+<section class="content-box">
+    <h2>404 — ЗАПИСЬ НЕ НАЙДЕНА</h2>
+    <p>Запрошенный пакет отсутствует, засекречен или удалён с ретранслятора.</p>
+    <p><a href="{% url 'home' %}">Вернуться на главную страницу сети</a></p>
+</section>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Вход | {{ site_settings.website_name }}{% endblock %}
+{% block content %}
+<section class="content-box form-box narrow-box">
+    <h2>ВХОД В СЕТЬ</h2>
+    <p>Учётные записи выдаёт администратор сети. Открытая регистрация отключена.</p>
+    {% if form.errors %}<p class="error-text">Имя пользователя или пароль не приняты.</p>{% endif %}
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        {% if next %}<input type="hidden" name="next" value="{{ next }}">{% endif %}
+        <button type="submit">Подключиться</button>
+    </form>
+</section>
+{% endblock %}

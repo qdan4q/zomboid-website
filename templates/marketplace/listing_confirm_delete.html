@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}Удалить: {{ listing.title }}{% endblock %}
+
+{% block content %}
+<section class="content-box">
+    <p class="eyebrow">ПОДТВЕРЖДЕНИЕ УДАЛЕНИЯ</p>
+    <h2>Удалить объявление</h2>
+    <p>Удалить объявление <strong>«{{ listing.title }}»</strong>? Восстановить его будет невозможно.</p>
+    <form method="post">
+        {% csrf_token %}
+        <button class="danger" type="submit">Да, удалить</button>
+        <a class="button" href="{% if listing.status == 'active' %}{{ listing.get_absolute_url }}{% elif user.is_staff %}{% url 'listing_manage' %}{% else %}{% url 'listing_list' %}{% endif %}">Отмена</a>
+    </form>
+</section>
+{% endblock %}

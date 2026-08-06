@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}{{ listing.title }} — Барахолка{% endblock %}
+
+{% block content %}
+<article class="content-box">
+    <p class="eyebrow">ОБЪЯВЛЕНИЕ С БАРАХОЛКИ</p>
+    <h2>{{ listing.title }}</h2>
+    <p class="meta-line">
+        {{ listing.get_category_display }} | Опубликовано {{ listing.created_at|date:"d.m.Y H:i" }}
+        пользователем {{ listing.author.username }} | Состояние: {{ listing.get_status_display }}
+    </p>
+
+    {% if listing.image %}
+        <p><img class="article-image" src="{{ listing.image.url }}" alt="Изображение к объявлению «{{ listing.title }}»"></p>
+    {% endif %}
+
+    {{ listing.description|linebreaks }}
+
+    <table class="data-table">
+        <tbody>
+            <tr><th>Выживший</th><td>{{ listing.character_name }}</td></tr>
+            <tr><th>Цена или условия обмена</th><td>{{ listing.price_or_trade }}</td></tr>
+            <tr><th>Место встречи</th><td>{{ listing.meeting_location }}</td></tr>
+            <tr><th>Способ связи</th><td>{{ listing.contact_information }}</td></tr>
+        </tbody>
+    </table>
+
+    {% if user == listing.author or user.is_staff %}
+        <p class="action-links">
+            <a class="button" href="{% url 'listing_edit' listing.pk %}">Изменить</a>
+            <a class="button danger" href="{% url 'listing_delete' listing.pk %}">Удалить</a>
+        </p>
+    {% endif %}
+    {% if user == listing.author and listing.status == "active" %}
+        <form method="post" action="{% url 'listing_mark_sold' listing.pk %}">
+            {% csrf_token %}
+            <button type="submit">Отметить как проданное</button>
+        </form>
+    {% endif %}
+</article>
+
+<p><a href="{% url 'listing_list' %}">&lt;&lt; Вернуться к барахолке</a></p>
+{% endblock %}

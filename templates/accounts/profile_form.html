@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Изменить профиль | {{ site_settings.website_name }}{% endblock %}
+{% block content %}
+<section class="content-box narrow-box form-box">
+    <h2>ИЗМЕНИТЬ ДОСЬЕ ВЫЖИВШЕГО</h2>
+    <p>Состояние учётной записи может изменить только администратор.</p>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <p><button type="submit">Сохранить профиль</button> <a href="{% url 'profile' %}">Отмена</a></p>
+    </form>
+</section>
+{% endblock %}

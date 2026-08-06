@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Удалить: {{ article.title }} | {{ site_settings.website_name }}{% endblock %}
+{% block content %}
+<section class="content-box form-box">
+    <h2>УДАЛИТЬ НОВОСТНУЮ СТАТЬЮ</h2>
+    <p class="warning-text">Статья «{{ article.title }}» будет удалена безвозвратно.</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Подтвердить удаление</button>
+        <a href="{{ article.get_absolute_url }}">Отмена</a>
+    </form>
+</section>
+{% endblock %}

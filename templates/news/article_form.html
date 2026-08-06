@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}{{ page_title }} | {{ site_settings.website_name }}{% endblock %}
+{% block content %}
+<section class="content-box form-box">
+    <h2>{{ page_title|upper }}</h2>
+    <p class="warning-text">ЗАКРЫТЫЙ ТЕРМИНАЛ — перед сохранением проверьте видимость.</p>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        {% for field in form %}
+            <div class="form-field{% if field.errors %} field-error{% endif %}">
+                {{ field.label_tag }}
+                {{ field }}
+                {% if field.help_text %}<span class="helptext">{{ field.help_text }}</span>{% endif %}
+                {{ field.errors }}
+            </div>
+        {% endfor %}
+        <p>
+            <button type="submit">Сохранить новостную статью</button>
+            <a href="{% if article %}{{ article.get_absolute_url }}{% else %}{% url 'news_manage' %}{% endif %}">Отмена</a>
+        </p>
+    </form>
+</section>
+{% endblock %}

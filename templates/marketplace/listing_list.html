@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Барахолка — {{ site_settings.website_name }}{% endblock %}
+
+{% block content %}
+<section class="content-box">
+    <div class="section-heading">
+        <div>
+            <p class="eyebrow">ДОСКА ОБЪЯВЛЕНИЙ ВЫЖИВШИХ</p>
+            <h2>Барахолка</h2>
+        </div>
+        {% if user.is_authenticated %}
+            <a class="button" href="{% url 'listing_create' %}">Создать объявление</a>
+        {% else %}
+            <a class="button" href="{% url 'login' %}?next={% url 'listing_create' %}">Войти для публикации</a>
+        {% endif %}
+    </div>
+    <p>Действующие предложения, собранные с досок объявлений по всей закрытой зоне.</p>
+</section>
+
+<section class="content-box">
+    {% for listing in listings %}
+        <article class="listing-row">
+            <p class="meta-line">{{ listing.get_category_display }} | {{ listing.created_at|date:"d.m.Y H:i" }}</p>
+            <h3><a href="{{ listing.get_absolute_url }}">{{ listing.title }}</a></h3>
+            <p>{{ listing.description|truncatewords:28 }}</p>
+            <p><strong>Цена или обмен:</strong> {{ listing.price_or_trade }}<br>
+                <strong>Автор:</strong> {{ listing.character_name }}</p>
+        </article>
+        {% if not forloop.last %}<hr>{% endif %}
+    {% empty %}
+        <p>На терминал пока не поступило действующих объявлений.</p>
+    {% endfor %}
+</section>
+{% endblock %}

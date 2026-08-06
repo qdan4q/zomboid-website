@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Управление новостями | {{ site_settings.website_name }}{% endblock %}
+{% block content %}
+<section class="content-box">
+    <div class="section-title">
+        <h2>УПРАВЛЕНИЕ НОВОСТЯМИ</h2>
+        <a href="{% url 'news_create' %}">[ СОЗДАТЬ СВОДКУ ]</a>
+    </div>
+    <table class="data-table">
+        <thead>
+            <tr><th>Заголовок</th><th>Тип</th><th>Видимость</th><th>Создано</th><th>Действия</th></tr>
+        </thead>
+        <tbody>
+        {% for article in articles %}
+            <tr>
+                <td><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></td>
+                <td>{{ article.get_news_type_display }}</td>
+                <td>
+                    {{ article.get_visibility_display }}
+                    {% if article.visibility == "admin_only" %}<span class="admin-only">ТОЛЬКО ДЛЯ АДМИНИСТРАТОРОВ</span>{% endif %}
+                </td>
+                <td>{{ article.created_at|date:"d.m.Y" }}</td>
+                <td><a href="{% url 'news_edit' article.pk %}">Изменить</a> | <a href="{% url 'news_delete' article.pk %}">Удалить</a></td>
+            </tr>
+        {% empty %}
+            <tr><td colspan="5">Сводок пока нет.</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <p><a href="{% url 'control_panel' %}">[ Вернуться в панель управления ]</a></p>
+</section>
+{% endblock %}

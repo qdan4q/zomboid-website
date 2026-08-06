@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Новости | {{ site_settings.website_name }}{% endblock %}
+{% block content %}
+<section class="content-box">
+    <div class="section-title">
+        <h2>АРХИВ НОВОСТЕЙ СЕТИ</h2>
+        {% if user.is_staff %}<a href="{% url 'news_create' %}">[ СОЗДАТЬ СВОДКУ ]</a>{% endif %}
+    </div>
+    <p>Сводки собраны с гражданских ретрансляторов, из официальных передач и непроверенных радиосообщений внутри закрытой зоны.</p>
+    {% for article in articles %}
+        <article class="news-row">
+            <p class="meta">
+                {{ article.get_news_type_display|upper }} :: {{ article.created_at|date:"d.m.Y H:i" }}
+                {% if article.visibility == "admin_only" %}<span class="admin-only">ТОЛЬКО ДЛЯ АДМИНИСТРАТОРОВ</span>{% endif %}
+            </p>
+            <h3><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></h3>
+            <p>{{ article.summary }}</p>
+            {% if article.in_game_date %}<p class="meta">ДАТА СВОДКИ: {{ article.in_game_date|date:"d.m.Y" }}</p>{% endif %}
+        </article>
+    {% empty %}
+        <p>В архив не поступило ни одной сводки.</p>
+    {% endfor %}
+    {% if user.is_staff %}<p><a href="{% url 'news_manage' %}">Управление всеми сводками</a></p>{% endif %}
+</section>
+{% endblock %}

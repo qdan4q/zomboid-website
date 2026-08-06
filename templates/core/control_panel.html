@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Панель управления | {{ site_settings.website_name }}{% endblock %}
+{% block content %}
+<section class="content-box">
+    <h2>ПАНЕЛЬ УПРАВЛЕНИЯ АДМИНИСТРАТОРА</h2>
+    <p class="warning-text">ЗАКРЫТЫЙ ТЕРМИНАЛ — все изменения вступают в силу немедленно.</p>
+    <div class="admin-links">
+        <a class="button" href="{% url 'news_create' %}">Создать новость</a>
+        <a class="button" href="{% url 'news_manage' %}">Управление новостями ({{ article_count }})</a>
+        <a class="button" href="{% url 'listing_manage' %}">Управление объявлениями ({{ listing_count }})</a>
+        <a class="button" href="{% url 'user_manage' %}">Управление пользователями ({{ user_count }})</a>
+        <a class="button" href="{% url 'site_settings_edit' %}">Изменить сообщения сайта</a>
+        <a class="button" href="{% url 'admin:index' %}">Системное администрирование</a>
+    </div>
+</section>
+{% endblock %}

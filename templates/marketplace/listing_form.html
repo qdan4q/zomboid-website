@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}{{ page_title }} — Барахолка{% endblock %}
+
+{% block content %}
+<section class="content-box">
+    <p class="eyebrow">ДОСКА ОБЪЯВЛЕНИЙ ВЫЖИВШИХ</p>
+    <h2>{{ page_title }}</h2>
+    <p>Все поля, кроме изображения, обязательны. Не указывайте место встречи, до которого не сможете безопасно добраться.</p>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        {% for field in form %}
+            <div class="form-row">
+                {{ field.label_tag }}
+                {{ field }}
+                {% if field.help_text %}<small>{{ field.help_text }}</small>{% endif %}
+                {{ field.errors }}
+            </div>
+        {% endfor %}
+        <button type="submit">Сохранить объявление</button>
+        <a class="button" href="{% if listing and listing.status == 'active' %}{{ listing.get_absolute_url }}{% elif user.is_staff %}{% url 'listing_manage' %}{% else %}{% url 'listing_list' %}{% endif %}">Отмена</a>
+    </form>
+</section>
+{% endblock %}

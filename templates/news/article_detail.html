@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}{{ article.title }} | {{ site_settings.website_name }}{% endblock %}
+{% block content %}
+<article class="content-box">
+    <p class="meta">
+        {{ article.get_news_type_display|upper }} :: ПОЛУЧЕНО {{ article.created_at|date:"d.m.Y H:i" }}
+        {% if article.visibility == "admin_only" %}<span class="admin-only">ТОЛЬКО ДЛЯ АДМИНИСТРАТОРОВ</span>{% endif %}
+    </p>
+    <h2>{{ article.title }}</h2>
+    <p><strong>{{ article.summary }}</strong></p>
+    {% if article.image %}
+        <p><img src="{{ article.image.url }}" alt="Изображение к статье «{{ article.title }}»"></p>
+    {% endif %}
+    <div>{{ article.content|linebreaks }}</div>
+    <hr>
+    <p class="meta">
+        АВТОР: {{ article.author.username|upper }}
+        {% if article.in_game_date %} :: ДАТА СВОДКИ {{ article.in_game_date|date:"d.m.Y" }}{% endif %}
+        :: ПОСЛЕДНЕЕ ИЗМЕНЕНИЕ {{ article.updated_at|date:"d.m.Y H:i" }}
+    </p>
+    <p>
+        <a href="{% url 'news_list' %}">[ Вернуться к новостям ]</a>
+        {% if user.is_staff %} | <a href="{% url 'news_edit' article.pk %}">Изменить</a> | <a href="{% url 'news_delete' article.pk %}">Удалить</a>{% endif %}
+    </p>
+</article>
+{% endblock %}
